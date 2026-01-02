@@ -42,7 +42,10 @@ led_config_t g_led_config = {{{0, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED
 // QMK Callback Functions - Delegate to common implementations
 // ===========================================================================
 
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max) {
+    if (!rgb_matrix_indicators_advanced_user(led_min, led_max)) {
+        return false;
+    }
     return kb_rgb_matrix_indicators_common(led_min, led_max);
 }
 
@@ -66,6 +69,9 @@ void keyboard_post_init_user(void) {
     kb_keyboard_post_init();
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    if (!process_record_user(keycode, record)) {
+        return false;
+    }
     return kb_process_record_common(keycode, record);
 }
