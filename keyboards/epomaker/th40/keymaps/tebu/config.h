@@ -24,11 +24,11 @@
 // Default is 200ms. Lower = faster taps required, Higher = more lenient.
 #define TAPPING_TERM 150
 
-// Optional: Per-key tapping term (uncomment to enable custom function)
-// #define TAPPING_TERM_PER_KEY
+// Per-key tapping term (enables get_tapping_term() in keymap.c)
+#define TAPPING_TERM_PER_KEY
 
-// Optional: Tap a key within TAPPING_TERM of a layer-tap to trigger tap
-// #define PERMISSIVE_HOLD
+// Per-key permissive hold (enables get_permissive_hold() in keymap.c)
+#define PERMISSIVE_HOLD_PER_KEY
 
 // Optional: Hold a key and tap another to trigger hold, even under TAPPING_TERM
 // #define HOLD_ON_OTHER_KEY_PRESS

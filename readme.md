@@ -1,3 +1,9 @@
+```
+make epomaker/th40:tebu
+
+cp .build/epomaker_th40_tebu.bin /media/jaeyoung/BA44-6B1C/
+```
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)

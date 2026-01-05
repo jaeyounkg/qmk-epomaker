@@ -32,7 +32,7 @@ enum layers {
 #define LOWER   MO(_LOWER)
 #define RAISE   MO(_RAISE)
 #define FN      MO(_FN)
-#define THUMB0  ALT_T(KC_BSPC)
+#define THUMB0  GUI_T(KC_BSPC)
 #define THUMB1  CTL_T(KC_SPC)
 #define TO_MOUSE     TO(_MOUSE)
 #define TO_BASE TO(_BASE)
@@ -45,23 +45,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* ───── Colemak base ───── */
 [_BASE] = LAYOUT_tkl_ansi(
-    KC_Q,    KC_Z,    KC_F,    KC_P,    KC_V,    __X__,   KC_J,    KC_L,    KC_U,    KC_Y,    KC_X,    KC_ESC,
+    KC_Q,    KC_Z,    KC_F,    KC_P,    KC_V,    __X__,   KC_J,    KC_L,    KC_U,    KC_Y,    KC_X,    FN,
     KC_A,    KC_R,    LT(_ARROWS,KC_S), LT(_SYMBOLS,KC_T), KC_G, __X__, KC_K, GUI_T(KC_N), CTL_T(KC_E), ALT_T(KC_I), KC_O,
-    KC_LSFT, KC_W,    KC_C,    KC_D,    KC_B,    TO_MOUSE,   TO_BASE,   KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT,
-    FN,      KC_LGUI, THUMB0,           THUMB1,  LT(_LOWER,KC_ESC), RAISE,       KC_ENT,  JP_TOG,  TG(_QWERTY)
+    KC_LSFT, KC_W,    KC_C,    ALT_T(KC_D),KC_B,   TO_MOUSE,   TO_BASE,   KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT,
+    KC_TAB,  KC_LGUI, THUMB0,           THUMB1,  LT(_LOWER,KC_ESC), LT(_RAISE,KC_ENT),       KC_ENT,  JP_TOG,  TG(_QWERTY)
 ),
 
 /* ───── QWERTY ───── */
 [_QWERTY] = LAYOUT_tkl_ansi(
-    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    __X__,   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_ESC,
+    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    __X__,   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    FN,
     KC_A,    KC_S,    LT(_ARROWS,KC_D), LT(_SYMBOLS,KC_F), KC_G, __X__, KC_H, GUI_T(KC_J), CTL_T(KC_K), ALT_T(KC_L), KC_SCLN,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    __X__,   __X__,   KC_B,    KC_N,    KC_M,    KC_SLSH, KC_RSFT,
-    FN,      KC_LGUI,  THUMB0,           THUMB1,  LT(_LOWER,KC_ESC), RAISE,          KC_ENT,  JP_TOG,  TG(_QWERTY)
+    KC_LSFT, KC_Z,    KC_X,    ALT_T(KC_C),    KC_V,    __X__,   __X__,   KC_B,    KC_N,    KC_M,    KC_SLSH, KC_RSFT,
+    KC_TAB,  KC_LGUI,  THUMB0,           THUMB1,  LT(_LOWER,KC_ESC),RAISE,          KC_ENT,  JP_TOG,  TG(_QWERTY)
 ),
 
 /* ───── FN (TH40 wireless/RGB controls) ───── */
 [_FN] = LAYOUT_tkl_ansi(
-    QK_BAT,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, __X__,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, EE_CLR,
+    QK_BAT,  EE_CLR,  KC_TRNS, KC_TRNS, KC_TRNS, __X__,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_CAPS, MD_BLE1, MD_BLE2, MD_BLE3, MD_24G,  MD_USB,  KC_TRNS, RM_VALU, RM_SATD, RM_TOGG, KC_TRNS,
     KC_LSFT, RM_NEXT, RM_SPDD, RM_SPDU, KC_TRNS, __X__,   __X__,   RM_HUED, RM_VALD, RM_HUEU, KC_TRNS, MW_CH,
     KC_TRNS, KC_TRNS, QK_WLO,           KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS
@@ -191,4 +191,24 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         }
     }
     return true;  // Continue to kb handler for battery/BT indicators on FN layer
+}
+
+/* ─────────── Per-key tapping term ─────────── */
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(_RAISE, KC_ENT):
+            return 100;
+        default:
+            return TAPPING_TERM;  // 150ms from config.h
+    }
+}
+
+/* ─────────── Per-key permissive hold ─────────── */
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(_RAISE, KC_ENT):
+            return true;
+        default:
+            return false;
+    }
 }
